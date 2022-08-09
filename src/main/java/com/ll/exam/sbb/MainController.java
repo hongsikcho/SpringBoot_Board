@@ -9,28 +9,28 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 //dev tools : 재시작할 필요없음
 @Controller
 public class MainController {
     static int idx;
-    static{
+
+    static {
         idx = 0;
     }
+
     @RequestMapping("/ssb")
     @ResponseBody // 아래 함수의 리턴값을 브라우저에 표시
     //아래 함수의 리턴값을 문자열화 해서 브라우저 응답의 바디에 담는다.
-    public String index(){
+    public String index() {
         System.out.println("Hello");//서버에서 실행
         return "안녕d하2세ddd요";//먼 미래에 브라우저에서 보여짐
     }
 
     @RequestMapping("/page1")
     @ResponseBody
-    public String showPage(){
+    public String showPage() {
         return """
                 <input></input>
                 """;
@@ -38,14 +38,14 @@ public class MainController {
 
     @RequestMapping("/plus")
     @ResponseBody
-    public int plus(int a , int b) {
-        return a+b;
+    public int plus(int a, int b) {
+        return a + b;
     }
 
     @RequestMapping("/minus")
     @ResponseBody
-    public int minus(int a , int b) {
-        return a-b;
+    public int minus(int a, int b) {
+        return a - b;
     }
 
     @RequestMapping("/increase")
@@ -53,12 +53,12 @@ public class MainController {
     public int increase() {
         return idx++;
     }
-    
+
     @RequestMapping("/mbti/{name}")
     @ResponseBody
     public String increase(@PathVariable String name, HttpServletRequest req) {
-        String rs = switch(name){
-            case "홍길동" , "조홍식" -> "ENFP";
+        String rs = switch (name) {
+            case "홍길동", "조홍식" -> "ENFP";
             case "최시멘" -> "ESTJ";
             default -> "모름";
         };
@@ -67,7 +67,7 @@ public class MainController {
 
     @GetMapping("/saveSession/{name}/{value}")
     @ResponseBody
-    public String saveSession( @PathVariable String name,  @PathVariable String value, HttpServletRequest req) {
+    public String saveSession(@PathVariable String name, @PathVariable String value, HttpServletRequest req) {
         HttpSession session = req.getSession();
 
         session.setAttribute(name, value);
@@ -83,13 +83,47 @@ public class MainController {
         return "세션변수 %s의 값이 %s 입니다.".formatted(name, value);
     }
 
+    private List<Article> articles = new ArrayList<>(Arrays.asList(new Article("제목1", "내용1"),new Article("제목2", "내용2")));
+
     @GetMapping("/addArticle/{title}/{body}")
     @ResponseBody
     public String addArticle(@PathVariable String title, @PathVariable String body) {
         Article article = new Article(title, body);
-        return "%d번 객체가 생성되었습니다.".formatted();
+        articles.add(article);
+        return "%d번 객체가 생성되었습니다.".formatted(article.getId());
     }
 
+    @GetMapping("/getArticle/{id}")
+    @ResponseBody
+    public String getArticle(@PathVariable int id) {
+        for (Article article : articles) {
+            if (id == article.getId()) {
+                return """
+                        제목 : %s
+                        내용 : %s
+                        """.formatted(article.getTitle(), article.getBody());
+            }
+
+        }
+        return "없음 그런거";
     }
+
+    @GetMapping("/modifyArticle/{id}/{title}/{body}")
+    @ResponseBody
+    public String modifyArticle(@PathVariable int id , @PathVariable String title , @PathVariable String body) {
+        for (Article article : articles) {
+            if (id == article.getId()) {
+                    article.setTitle(title);
+                    article.setBody(body);
+                return """
+                   수정되었음""";
+            }
+
+        }
+        return "없음 그런거";
+    }
+}
+
+
 
 
