@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.ll.exam.sbb.Question;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,5 +27,5 @@ public class Answer {
     private LocalDateTime createDate;
 
     @ManyToOne
-    private Question q;
+    private Question question;
 }
