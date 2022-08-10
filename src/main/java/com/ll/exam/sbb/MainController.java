@@ -1,5 +1,7 @@
 package com.ll.exam.sbb;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.catalina.session.StandardSession;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
@@ -118,11 +120,56 @@ public class MainController {
                 return """
                    수정되었음""";
             }
+            //Article article = articles
+            //              .stream()
+            //              .filter(a -> a.getId() == id)
+            //              .findFirst()
+            //              .orElse(null);
 
         }
         return "없음 그런거";
     }
+
+    @GetMapping("/deleteArticle/{id}")
+    @ResponseBody
+    public String deleteArticle(@PathVariable int id) {
+        Article article = articles
+                .stream()
+                .filter(a -> a.getId() == id) // 1번
+                .findFirst()
+                .orElse(null);
+
+        if (article == null) {
+            return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+        }
+
+        articles.remove(article);
+
+        return "%d번 게시물을 삭제하였습니다.".formatted(article.getId());
+    }
+
+    @GetMapping("addPersonOldWay")
+    @ResponseBody
+    Person addPersonOldWay(int id, int age, String name) {
+        Person p = new Person(id, age, name);
+
+        return p;
+    }
+
+    @GetMapping("addPerson")
+    @ResponseBody
+    Person addPerson(Person p) {
+        return p;
+    }
 }
+
+@AllArgsConstructor
+@Getter
+class Person {
+    private int id;
+    private int age;
+    private String name;
+};
 
 
 
