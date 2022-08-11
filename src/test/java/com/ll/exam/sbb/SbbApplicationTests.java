@@ -7,16 +7,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class SbbApplicationTests {
 	@Autowired
 	private QuestionRepository questionRepository;
 
-	@BeforeEach
 	@Test
 	void contextLoads() {
 	}
@@ -66,11 +67,25 @@ class SbbApplicationTests {
 	}
 
 	@Test
+	void testJpa5() {
+		List<Question> list = questionRepository.findBySubjectLike("sbb%");
+		Question q = list.get(0);
+		assertEquals("sbb가 무엇인가요?",q.getSubject());
+
+	}
+
+	@Test
+	void testJpa6() {
+		Optional<Question> que = questionRepository.findById(1);
+		assertTrue(que.isPresent());
+		Question q = que.get();
+		q.setSubject("ssb가 무엇인가요?");
+		this.questionRepository.save(q);
+	}
+	@Test
 	void testTruncate() {
 		// SELECT * FROM question
 		questionRepository.truncate1();
-
-
 	}
 
 
