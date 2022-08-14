@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class QuestionApplicationTests {
+public class QuestionRepositoryTests {
     @Autowired
-    private QuestionRepository questionRepository;
+    private  QuestionRepository questionRepository;
     private static int lastSampleId;
 
     @BeforeEach
@@ -31,7 +31,8 @@ public class QuestionApplicationTests {
         createSampleData();
     }
 
-    private void createSampleData() {
+    @Test
+    public static int createSampleData(QuestionRepository questionRepository) {
         Question q1 = new Question();
         q1.setSubject("sbb가 무엇인가요?");
         q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -44,14 +45,22 @@ public class QuestionApplicationTests {
         q2.setCreateDate(LocalDateTime.now());
         questionRepository.save(q2);
 
-        lastSampleId = q2.getId();
+        return q2.getId();
+    }
+    @Test
+    private void createSampleData() {
+        lastSampleId = createSampleData(questionRepository);
     }
 
-    private void clearData() {
-        questionRepository.disableForeignKeyChecks();
+    @Test
+    public static void clearData(QuestionRepository questionRepository) {
+        questionRepository.deleteAll();
         questionRepository.truncate();
-        questionRepository.enableForeignKeyChecks();
     }
+    private void clearData() {
+        clearData(questionRepository);
+    }
+
 
     @Test
     void 저장(){
@@ -75,6 +84,17 @@ public class QuestionApplicationTests {
     }
 
     @Test
+    void 수정(){
+        Question q = questionRepository.findById(1).get();
+        q.setSubject("수정된 내용");
+        questionRepository.save(q);
+        
+        Question q2 = questionRepository.findById(1).get();
+
+        assertThat(q2.getSubject()).isEqualTo("수정된 내용");
+    }
+
+    @Test
     void testJpa() {
         Question q1 = new Question();
         q1.setSubject("sbb가 무엇인가요?");
@@ -93,7 +113,7 @@ public class QuestionApplicationTests {
     }
 
     @Test
-    void testJpa2() {
+    void findAll() {
         // SELECT * FROM question
         List<Question> all = questionRepository.findAll();
         assertEquals(2, all.size());
@@ -135,7 +155,7 @@ public class QuestionApplicationTests {
         this.questionRepository.save(q);
     }
     @Test
-    void testJpa0() {
+    void truncate() {
         Question q1 = new Question();
         q1.setSubject("sbb가 무엇인가요?");
         q1.setContent("sbb에 대해서 알고 싶습니다.");

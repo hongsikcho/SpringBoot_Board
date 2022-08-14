@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface QuestionRepository extends JpaRepository<Question, Integer> {
+public interface QuestionRepository extends JpaRepository<Question, Integer>  {
 
     Question findBySubject(String s);
 
@@ -25,8 +25,8 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "truncate Question;" ,nativeQuery = true)
-    void truncate();
+    @Query(value = "ALTER TABLE question AUTO_INCREMENT = 1", nativeQuery = true)
+    void truncate(); // 이거 지우면 안됨, truncateTable 하면 자동으로 이게 실행됨
 
 
     List<Question> findBySubjectLike(String s);
