@@ -1,10 +1,12 @@
-package com.ll.exam.sbb;
+package com.ll.exam.sbb.Question;
 
+import com.ll.exam.sbb.Answer.Answer;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,6 +23,11 @@ public class Question {
     private String content;
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE , fetch = FetchType.EAGER)
-    private List<Answer> answerList;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL )
+    private List<Answer> answerList = new ArrayList<>();
+
+    public void addAnswer(Answer answer){
+        answer.setQuestion(this);
+        getAnswerList().add(answer);
+    }
 }
