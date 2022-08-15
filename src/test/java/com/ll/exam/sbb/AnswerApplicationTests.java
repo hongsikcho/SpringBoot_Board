@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,6 +83,8 @@ public class AnswerApplicationTests {
     }
 
     @Test
+    @Transactional
+    @Rollback(false)
     void 질문_관련_답변_조회() {
         Question q = questionRepository.findById(1).get();
 
