@@ -161,6 +161,11 @@ public class MainController {
     Person addPerson(Person p) {
         return p;
     }
+
+    @RequestMapping("/")
+    String root(){
+        return "redirect:/question/list";
+    }
 }
 
 @AllArgsConstructor

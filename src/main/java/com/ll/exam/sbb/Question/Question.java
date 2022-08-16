@@ -23,7 +23,7 @@ public class Question {
     private String content;
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     private List<Answer> answerList = new ArrayList<>();
 
     public void addAnswer(Answer answer){
