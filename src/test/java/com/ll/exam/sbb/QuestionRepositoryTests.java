@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -123,6 +126,17 @@ public class QuestionRepositoryTests {
         Question q = all.get(0);
         assertEquals("sbb가 무엇인가요?", q.getSubject());
     }
+
+    @Test
+    void findAllPageable() {
+        //pageable = 한 페이지에 몇개의 아이템이 나와야 하는지 + 현재 몇 페이지
+        Pageable pageable = PageRequest.of(0,1);
+        Page<Question> all = questionRepository.findAll(pageable);
+
+        assertThat(all.getTotalPages()).isEqualTo(2);
+
+    }
+
 
     @Test
     void testJpa3() {

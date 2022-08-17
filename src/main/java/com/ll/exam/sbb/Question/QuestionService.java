@@ -2,6 +2,9 @@ package com.ll.exam.sbb.Question;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,8 +25,9 @@ public class QuestionService {
         return q2;
     }
 
-    public List<Question> getList() {
-        return questionRepository.findAll();
+    public Page<Question> getList(int page) {
+        Pageable pageable = PageRequest.of(page,10);
+        return questionRepository.findAll(pageable);
     }
 
     public Question getQuestion(int id) {
