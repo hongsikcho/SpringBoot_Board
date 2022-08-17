@@ -1,10 +1,14 @@
 package com.ll.exam.sbb.Question;
 
+import com.ll.exam.sbb.Answer.AnswerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -24,32 +28,25 @@ public class QuestionController {
     }
 
     @RequestMapping("detail/{id}")
-    public String showList(Model model , @PathVariable Integer id) {
+    public String detail(Model model , @PathVariable Integer id, AnswerForm answerForm) {
         Question question = questionService.getQuestion(id);
         model.addAttribute("question", question);
         return "question_detail";
     }
 
-    @GetMapping("create")
-    public String create() {
-
+    @GetMapping("/create")
+    public String questionCreate(QuestionForm questionForm) {
         return "question_form";
     }
 
-    @PostMapping("create")
-    public String questionCreate(Model model, QuestionForm questionForm){
-        if(questionForm.getSubject() == null  || questionForm.getSubject().trim().length() == 0){
-            model.addAttribute("error","제목을 입력해주세요");
+    @PostMapping("/create")
+    public String questionCreate(Model model, @Valid QuestionForm questionForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "question_form";
         }
 
-        if(questionForm.getContent() == null  || questionForm.getContent().trim().length() == 0){
-            model.addAttribute("error","내용을 입력해주세요");
-            return "question_form";
-        }
         questionService.create(questionForm.getSubject(), questionForm.getContent());
-        return "redirect:/question/list";
-
+        return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
     }
 
 
