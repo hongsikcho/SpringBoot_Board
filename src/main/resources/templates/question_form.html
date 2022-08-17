@@ -1,0 +1,15 @@
+<html layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+
+    <form method="POST" th:action = "@{/question/create}">
+    <h6 class="my-3">제목</h6>
+        <input type="text" style="width:100%">
+    </form>
+
+
+
+</div>
+
+</html>

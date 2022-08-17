@@ -1,8 +1,19 @@
-textarea{
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+extarea{
     width:100%;
 }
 
 input[type=submit],
 button{
     margin-top:10px;
+}
+
+html > body{
+    text-underline-position: under;
+    font-family: "GmarketSansMedium";
 }

@@ -32,5 +32,11 @@ public class QuestionController {
         return "question_detail";
     }
 
+    @RequestMapping("create")
+    public String create() {
+
+        return "question_form";
+    }
+
 
 }
