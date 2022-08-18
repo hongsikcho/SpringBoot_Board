@@ -2,6 +2,7 @@ package com.ll.exam.sbb.user;
 
 import javax.validation.Valid;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +35,19 @@ public class UserController {
             return "signup_form";
         }
 
-        userService.create(userCreateForm.getUsername(),
-                userCreateForm.getEmail(), userCreateForm.getPassword1());
 
+        try {
+            userService.create(userCreateForm.getUsername(),
+                    userCreateForm.getEmail(), userCreateForm.getPassword1());
+        } catch (DataIntegrityViolationException e) {
+            bindingResult.rejectValue("username", "usernameSame",
+                    "아이디가 중복되었습니다.");
+            return "signup_form";
+        } catch (Exception e) {
+            bindingResult.rejectValue("email", "emailduplicate",
+                    "이메일 중복되었습니다.");
+            return "signup_form";
+        }
         return "redirect:/";
     }
 }
