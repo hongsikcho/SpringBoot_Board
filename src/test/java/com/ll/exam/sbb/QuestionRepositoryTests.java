@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class QuestionRepositoryTests {
     @Autowired
     private QuestionRepository questionRepository;
-    private static int lastSampleId;
+    private static long lastSampleId;
 
     @BeforeEach
     void beforeEach(){
@@ -37,7 +37,7 @@ public class QuestionRepositoryTests {
     }
 
     @Test
-    public static int createSampleData(QuestionRepository questionRepository) {
+    public static long createSampleData(QuestionRepository questionRepository) {
         Question q1 = new Question();
         q1.setSubject("sbb가 무엇인가요?");
         q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -82,7 +82,7 @@ public class QuestionRepositoryTests {
     void 삭제(){
         assertThat(questionRepository.count()).isEqualTo(lastSampleId);
 
-        Question q = questionRepository.findById(1).get();
+        Question q = questionRepository.findById(1L).get();
         questionRepository.delete(q);
 
         assertThat(questionRepository.count()).isEqualTo(lastSampleId -1);
@@ -90,11 +90,11 @@ public class QuestionRepositoryTests {
 
     @Test
     void 수정(){
-        Question q = questionRepository.findById(1).get();
+        Question q = questionRepository.findById(1L).get();
         q.setSubject("수정된 내용");
         questionRepository.save(q);
         
-        Question q2 = questionRepository.findById(1).get();
+        Question q2 = questionRepository.findById(1L).get();
 
         assertThat(q2.getSubject()).isEqualTo("수정된 내용");
     }
@@ -164,7 +164,7 @@ public class QuestionRepositoryTests {
 
     @Test
     void testJpa6() {
-        Optional<Question> que = questionRepository.findById(1);
+        Optional<Question> que = questionRepository.findById(1L);
         assertTrue(que.isPresent());
         Question q = que.get();
         q.setSubject("ssb가 무엇인가요?");

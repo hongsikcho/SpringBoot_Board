@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface QuestionRepository extends JpaRepository<Question, Integer>  {
+public interface QuestionRepository extends JpaRepository<Question, Long>  {
 
     Question findBySubject(String s);
 

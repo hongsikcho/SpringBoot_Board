@@ -26,7 +26,7 @@ public class AnswerService {
     }
 
     public List<Answer> getAllAnswer(Question question) {
-        Question q = questionRepository.findById(1).get();
+        Question q = questionRepository.findById(1L).get();
 
         return q.getAnswerList();
     }

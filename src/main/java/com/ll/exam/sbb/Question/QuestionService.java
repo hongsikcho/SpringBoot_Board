@@ -20,15 +20,15 @@ public class QuestionService {
     private QuestionRepository questionRepository;
 
     public Question findById(int id) {
-        Question q1 = questionRepository.findById(2).get();
-        Question q2 = questionRepository.findById(2).get();
+        Question q1 = questionRepository.findById(2L).get();
+        Question q2 = questionRepository.findById(2L    ).get();
         System.out.println(q2.getAnswerList());
 
         return q2;
     }
 
 
-    public Question getQuestion(int id) {
+    public Question getQuestion(Long id) {
         return questionRepository.findById(id).orElseThrow(() -> new RuntimeException("수고여"));
 
     }
