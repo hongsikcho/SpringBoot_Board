@@ -19,8 +19,9 @@ public class SecurityConfig {
                 .and() // 문맥의 끝
                 .csrf().ignoringAntMatchers("/h2-console/**")
                 .and()
-                .headers().addHeaderWriter(new XFrameOptionsHeaderWriter(
-                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN));
+                .formLogin()
+                .loginPage("/user/login")
+                .defaultSuccessUrl("/");
         return http.build();
     }
 

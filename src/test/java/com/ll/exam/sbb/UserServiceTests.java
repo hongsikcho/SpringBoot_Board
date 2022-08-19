@@ -16,4 +16,10 @@ public class UserServiceTests {
     public void t1() {
         userService.create("user1", "user1@email.com", "1234");
     }
+
+    @Test
+    @DisplayName("로그인이 가능하다.")
+    public void t2() {
+        userService.create("user1", "user1@email.com", "1234");
+    }
 }

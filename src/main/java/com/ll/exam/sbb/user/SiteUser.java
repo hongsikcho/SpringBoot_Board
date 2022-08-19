@@ -2,12 +2,14 @@ package com.ll.exam.sbb.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
+@ToString
 public class SiteUser {
 
     @Id

@@ -20,6 +20,7 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
+        System.out.println(userCreateForm);
         return "signup_form";
     }
 
@@ -49,5 +50,10 @@ public class UserController {
             return "signup_form";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return"login_form";
     }
 }
