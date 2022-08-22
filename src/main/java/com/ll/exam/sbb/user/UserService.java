@@ -21,4 +21,8 @@ public class UserService {
         this.userRepository.save(user);
         return user;
     }
+
+    public SiteUser getUser(String username) {
+        return userRepository.findByusername(username).orElseThrow(() -> new RuntimeException("없어용"));
+    }
 }

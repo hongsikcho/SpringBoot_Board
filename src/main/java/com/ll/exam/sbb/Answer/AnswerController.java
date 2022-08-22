@@ -2,6 +2,8 @@ package com.ll.exam.sbb.Answer;
 
 import com.ll.exam.sbb.Question.Question;
 import com.ll.exam.sbb.Question.QuestionService;
+import com.ll.exam.sbb.user.SiteUser;
+import com.ll.exam.sbb.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RequestMapping("/answer")
 @Controller
@@ -21,9 +24,11 @@ public class AnswerController {
     private final QuestionService questionService;
     @Autowired
     private final AnswerService answerService;
+    @Autowired
+    private final UserService userService;
 
     @PostMapping("/create/{id}")
-    public String detail(Model model, @PathVariable Long id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
+    public String detail(Principal principal,  Model model, @PathVariable Long id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
 
         Question question = this.questionService.getQuestion(id);
 
@@ -32,8 +37,9 @@ public class AnswerController {
             return "question_detail";
         }
 
+        SiteUser siteUser = userService.getUser(principal.getName());
         // 답변 등록 시작
-        answerService.create(question, answerForm.getContent());
+        answerService.create(question, answerForm.getContent(),siteUser);
         // 답변 등록 끝
 
         return "redirect:/question/detail/%d".formatted(id);
