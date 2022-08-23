@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnswerService {
@@ -31,5 +32,25 @@ public class AnswerService {
         Question q = questionRepository.findById(1L).get();
 
         return q.getAnswerList();
+    }
+
+    public Answer getAnswer(Long id) {
+        Optional<Answer> answer = this.answerRepository.findById(id);
+        if (answer.isPresent()) {
+            return answer.get();
+        } else {
+            throw new RuntimeException("answer not found");
+        }
+    }
+
+    public void modify(Answer answer, String content) {
+        answer.setContent(content);
+        answer.setModifyDate(LocalDateTime.now());
+        this.answerRepository.save(answer);
+    }
+
+
+    public void delete(Answer answer) {
+        answerRepository.delete(answer);
     }
 }
