@@ -6,6 +6,7 @@ import com.ll.exam.sbb.user.SiteUser;
 import com.ll.exam.sbb.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ public class AnswerController {
     @Autowired
     private final UserService userService;
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
     public String detail(Principal principal,  Model model, @PathVariable Long id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
 
@@ -37,7 +39,7 @@ public class AnswerController {
             return "question_detail";
         }
 
-        SiteUser siteUser = userService.getUser(principal.getName());
+        SiteUser siteUser = userService.getUser(principal.getName());//@preAuthorize가 없으면 여기서 nullPointerException이남
         // 답변 등록 시작
         answerService.create(question, answerForm.getContent(),siteUser);
         // 답변 등록 끝

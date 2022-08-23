@@ -1,5 +1,6 @@
 package com.ll.exam.sbb.Question;
 
+import com.ll.exam.sbb.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,10 +12,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor // 생성자주입
+@Service// 생성자주입
 public class QuestionService {
     @Autowired//필드주입
     private QuestionRepository questionRepository;
@@ -37,10 +36,11 @@ public class QuestionService {
         questionRepository.save(question);
     }
 
-    public void create(String subject, String content) {
+    public void create(String subject, String content, SiteUser siteUser) {
             Question question = new Question();
             question.setSubject(subject);
             question.setContent(content);
+            question.setAuthor(siteUser);
             question.setCreateDate(LocalDateTime.now());
             questionRepository.save(question);
     }
