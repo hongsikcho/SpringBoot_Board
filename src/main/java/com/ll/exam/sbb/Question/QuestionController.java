@@ -43,7 +43,7 @@ public class QuestionController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/create") //Principal객체를 사용하는 메서드에 붙힘, 로그인이 필요한 메서드를 의미
+    @GetMapping("/create") //Principal객체를 사용하는 메서드에 붙힘, 로그인이 필요한 메서드를 선언
     public String questionCreate(QuestionForm questionForm) {
 
         return "question_form";
