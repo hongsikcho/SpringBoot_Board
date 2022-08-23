@@ -23,7 +23,8 @@ public class Question {
     @Column(columnDefinition = "TEXT")
     private String content;
     private LocalDateTime createDate;
-    
+    private LocalDateTime modifyDate;
+
     @ManyToOne
     private SiteUser author; //작가는 유저
 
