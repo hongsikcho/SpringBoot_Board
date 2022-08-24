@@ -35,21 +35,18 @@ public class AnswerController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
-    public String detail(Principal principal,  Model model, @PathVariable Long id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
-
+    public String createAnswer(Model model, @PathVariable("id") Long id,
+                               @Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal) {
         Question question = this.questionService.getQuestion(id);
-
-        if ( bindingResult.hasErrors() ) {
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        if (bindingResult.hasErrors()) {
             model.addAttribute("question", question);
             return "question_detail";
         }
-
-        SiteUser siteUser = userService.getUser(principal.getName());//@preAuthorize가 없으면 여기서 nullPointerException이남
-        // 답변 등록 시작
-        answerService.create(question, answerForm.getContent(),siteUser);
-        // 답변 등록 끝
-
-        return "redirect:/question/detail/%d".formatted(id);
+        Answer answer = this.answerService.create(question,
+                answerForm.getContent(), siteUser);
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -75,7 +72,8 @@ public class AnswerController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.answerService.modify(answer, answerForm.getContent());
-        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -99,6 +97,7 @@ public class AnswerController {
         Long i = answer.getQuestion().getId();
         SiteUser siteUser = this.userService.getUser(principal.getName());
         answerService.vote(answer, siteUser);
-        return String.format("redirect:/question/detail/%s", i);
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 }

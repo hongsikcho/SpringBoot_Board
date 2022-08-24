@@ -18,14 +18,14 @@ public class AnswerService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    public void create(Question question, String content, SiteUser siteUser) {
+    public Answer create(Question question, String content, SiteUser siteUser) {
         Answer ans = new Answer();
         ans.setContent(content);
-        ans.setQuestion(question);
         ans.setAuthor(siteUser);
         ans.setCreateDate(LocalDateTime.now());
         question.addAnswer(ans);
-        questionRepository.save(question);
+        answerRepository.save(ans);
+        return ans;
     }
 
     public List<Answer> getAllAnswer(Question question) {

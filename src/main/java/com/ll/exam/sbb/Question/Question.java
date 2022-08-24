@@ -29,7 +29,7 @@ public class Question {
     @ManyToOne
     private SiteUser author; //작가는 유저
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL )
     private List<Answer> answerList = new ArrayList<>();
 
     @ManyToMany
