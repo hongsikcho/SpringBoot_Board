@@ -105,7 +105,7 @@ public class QuestionController {
         Question question = this.questionService.getQuestion(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         this.questionService.vote(question, siteUser);
-        return String.format("redirect:/question/detail/%s", id);
+        return "redirect:/question/detail/%s".formatted(id);
     }
 
 }
