@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,5 +29,8 @@ public class Answer {
 
     @ManyToOne
     private SiteUser author;//댓글작성자도 유저
+
+    @ManyToMany
+    Set<SiteUser> voter;
 
 }

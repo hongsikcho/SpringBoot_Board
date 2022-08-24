@@ -89,6 +89,6 @@ public class AnswerController {
 
         answerService.delete(answer);
 
-        return "redirect:/";
+        return "redirect:/question/detail/%d".formatted(answer.getQuestion().getId());
     }
 }
