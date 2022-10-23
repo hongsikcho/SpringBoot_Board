@@ -1,2 +1,2 @@
 # SpringBoot_Board
-- 점프 투 스프링 부트 클론코딩
+- Springboot&Spring Data Jpa를 이용한 게시판 구현
