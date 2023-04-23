@@ -187,5 +187,6 @@ public class QuestionRepositoryTests {
         questionRepository.disableForeignKeyChecks();
         questionRepository.truncate();
         questionRepository.enableForeignKeyChecks();
+        
     }
 }
